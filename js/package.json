@@ -1,0 +1,40 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc && npx webpack -p --mode production",
+    "build-dev": "npx tsc && npx webpack -d --mode development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.8.3",
+    "@babel/runtime": "^7.9.6",
+    "@polkadot/api": "1.13.0-beta.5",
+    "@substrate/txwrapper": "^1.2.8",
+    "bn.js": "^5.1.1",
+    "connect": "^3.7.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "serve-static": "latest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@types/lodash": "^4.14.150",
+    "@webpack-cli/info": "^0.2.0",
+    "@webpack-cli/init": "^0.3.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
