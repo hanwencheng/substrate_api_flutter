@@ -4,7 +4,7 @@ import {Extrinsic, ExtrinsicPayload} from '@polkadot/types/interfaces/extrinsics
 import Decorated from '@polkadot/metadata/Decorated';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import {AccountInfo} from '@polkadot/types/interfaces/system';
-import { hexToU8a, u8aToHex} from '@polkadot/util';
+import { hexToU8a, u8aToHex, compactFromU8a, hexStripPrefix} from '@polkadot/util';
 import { SignedBlock } from '@polkadot/types/interfaces/runtime';
 
 function prefixSignature (signatureRaw: string): string {
@@ -82,10 +82,16 @@ export const getRaw : GetUnsignedPayloadPrivate = async (api, metaDataHex, txFun
 		const payloadJson = createPayloadJson(api, txInfoRaw);
 		const payload:ExtrinsicPayload = registry.createType('ExtrinsicPayload', payloadJson, { version: payloadJson.version });
 		// const payloadHex = payload.toHex();
-		const payloadHex = u8aToHex(payload.toU8a(true), -1, false);
+		const rawPayload = payload.toU8a(true);
+		const [offset] = compactFromU8a(rawPayload);
+		const offsetPayload = rawPayload.subarray(offset);
+		const signable = hexStripPrefix(u8aToHex(offsetPayload));
+
+		const convertedRawPayload = hexToU8a(signable);
+		console.assert(convertedRawPayload === rawPayload, 'converted payload is different than the original one');
 		TxSubs.postMessage(JSON.stringify({
 			json: txInfoRaw,
-			hex: payloadHex,
+			hex: signable,
 			id: txId
 		}));
 	}catch (e){
